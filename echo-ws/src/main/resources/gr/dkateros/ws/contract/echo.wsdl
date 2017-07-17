@@ -3,13 +3,13 @@
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:tps="http://www.dkateros.gr/ws/echo" 
+	xmlns:tps="http://www.dkateros.gr/ws/types" 
 	xmlns:tns="http://www.dkateros.gr/ws"
 	targetNamespace="http://www.dkateros.gr/ws">
 
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import namespace="http://www.dkateros.gr/ws/echo" schemaLocation="echo.xsd" />
+			<xsd:import namespace="http://www.dkateros.gr/ws/types" schemaLocation="types.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 
@@ -41,7 +41,7 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:service name="EchoService">
+	<wsdl:service name="Echo">
 		<wsdl:port binding="tns:EchoBinding" name="EchoPort">
 			<soap:address location="REPLACE_WITH_ACTUAL_URL" />
 		</wsdl:port>

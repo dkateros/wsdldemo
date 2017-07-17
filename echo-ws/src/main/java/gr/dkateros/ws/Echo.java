@@ -2,7 +2,7 @@ package gr.dkateros.ws;
 
 import javax.jws.WebService;
 
-import gr.dkateros.ws.echo.SimpleMessage;
+import gr.dkateros.ws.types.SimpleMessage;
 
 @WebService(
 		serviceName="Echo",

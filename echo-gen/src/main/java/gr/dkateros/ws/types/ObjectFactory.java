@@ -1,5 +1,5 @@
 
-package gr.dkateros.ws.echo;
+package gr.dkateros.ws.types;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the gr.dkateros.ws.echo package. 
+ * generated in the gr.dkateros.ws.types package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -24,11 +24,11 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _EchoOutput_QNAME = new QName("http://www.dkateros.gr/ws/echo", "EchoOutput");
-    private final static QName _EchoInput_QNAME = new QName("http://www.dkateros.gr/ws/echo", "EchoInput");
+    private final static QName _EchoInput_QNAME = new QName("http://www.dkateros.gr/ws/types", "EchoInput");
+    private final static QName _EchoOutput_QNAME = new QName("http://www.dkateros.gr/ws/types", "EchoOutput");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: gr.dkateros.ws.echo
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: gr.dkateros.ws.types
      * 
      */
     public ObjectFactory() {
@@ -46,18 +46,18 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link SimpleMessage }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.dkateros.gr/ws/echo", name = "EchoOutput")
-    public JAXBElement<SimpleMessage> createEchoOutput(SimpleMessage value) {
-        return new JAXBElement<SimpleMessage>(_EchoOutput_QNAME, SimpleMessage.class, null, value);
+    @XmlElementDecl(namespace = "http://www.dkateros.gr/ws/types", name = "EchoInput")
+    public JAXBElement<SimpleMessage> createEchoInput(SimpleMessage value) {
+        return new JAXBElement<SimpleMessage>(_EchoInput_QNAME, SimpleMessage.class, null, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SimpleMessage }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.dkateros.gr/ws/echo", name = "EchoInput")
-    public JAXBElement<SimpleMessage> createEchoInput(SimpleMessage value) {
-        return new JAXBElement<SimpleMessage>(_EchoInput_QNAME, SimpleMessage.class, null, value);
+    @XmlElementDecl(namespace = "http://www.dkateros.gr/ws/types", name = "EchoOutput")
+    public JAXBElement<SimpleMessage> createEchoOutput(SimpleMessage value) {
+        return new JAXBElement<SimpleMessage>(_EchoOutput_QNAME, SimpleMessage.class, null, value);
     }
 
 }

@@ -7,8 +7,8 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import gr.dkateros.ws.echo.ObjectFactory;
-import gr.dkateros.ws.echo.SimpleMessage;
+import gr.dkateros.ws.types.ObjectFactory;
+import gr.dkateros.ws.types.SimpleMessage;
 
 
 /**
@@ -29,12 +29,12 @@ public interface EchoPortType {
      * 
      * @param echoInput
      * @return
-     *     returns gr.dkateros.ws.echo.SimpleMessage
+     *     returns gr.dkateros.ws.types.SimpleMessage
      */
     @WebMethod(operationName = "Echo", action = "Echo")
-    @WebResult(name = "EchoOutput", targetNamespace = "http://www.dkateros.gr/ws/echo", partName = "EchoOutput")
+    @WebResult(name = "EchoOutput", targetNamespace = "http://www.dkateros.gr/ws/types", partName = "EchoOutput")
     public SimpleMessage echo(
-        @WebParam(name = "EchoInput", targetNamespace = "http://www.dkateros.gr/ws/echo", partName = "EchoInput")
+        @WebParam(name = "EchoInput", targetNamespace = "http://www.dkateros.gr/ws/types", partName = "EchoInput")
         SimpleMessage echoInput);
 
 }
