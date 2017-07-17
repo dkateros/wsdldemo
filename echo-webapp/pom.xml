@@ -11,10 +11,9 @@
 	<artifactId>echo-webapp</artifactId>
 	<packaging>war</packaging>
 	
-	<properties>
-		<failOnMissingWebXml>false</failOnMissingWebXml>
-	</properties>
-	
+	<build>
+		<finalName>echo</finalName>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -26,6 +25,24 @@
 			<groupId>gr.dkateros.demo</groupId>
 			<artifactId>wsdl-utils</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.ant</groupId>
+					<artifactId>ant</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
