@@ -42,6 +42,9 @@
 	</wsdl:binding>
 
 	<wsdl:service name="Echo">
+		<wsdl:documentation>
+			Echo operation: Returns the input message.
+		</wsdl:documentation>
 		<wsdl:port binding="tns:EchoBinding" name="EchoPort">
 			<soap:address location="REPLACE_WITH_ACTUAL_URL" />
 		</wsdl:port>
