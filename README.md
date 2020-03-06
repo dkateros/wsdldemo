@@ -117,7 +117,17 @@ Most servlet containers auto-detect @WebService annotated files and publish the 
 
 ## Log the soap request and response (wsdl-utils)
 
-Class SoapLogger is a servlet filter that intercepts
+Class `SoapLogger` is a servlet filter that intercepts HttpServletRequest and HttpServletResponse objects in order to log the input / output SOAP messages. Define the filter in web.xml
+
+	<filter>
+		<filter-name>SoapLogger</filter-name>
+		<filter-class>gr.dkateros.ws.util.log.SoapLogger</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SoapLogger</filter-name>
+		<url-pattern>/Echo</url-pattern>
+	</filter-mapping>
 
 ## Generate documentation from WSDL / XSD files (wsdl-utils, echo-ws)
 
@@ -169,5 +179,5 @@ The `SoapWsClient` utility sends a SOAP payload to a specified web service URL a
 
 ## Useful patterns
 
-Encapsulate request and response types to allow for extensibility
-Extend input / output types with optional attributes placed as the last attributes of the type to preserve backwards compatibility
+1. Encapsulate request and response types to allow for extensibility. Using an xsd:int as input for example does not allow for extend the service definition to accept additional input.
+2. Extend input / output types with optional attributes placed as the last attributes of the type to preserve client backwards compatibility.
