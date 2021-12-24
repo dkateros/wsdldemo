@@ -23,6 +23,12 @@
 		</dependency>
 		<dependency>
 			<groupId>gr.dkateros.demo</groupId>
+			<artifactId>test-generated</artifactId>
+			<scope>test</scope>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>gr.dkateros.demo</groupId>
 			<artifactId>generated</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -1,8 +1,16 @@
-# Contract First Web Services Guide
+# Jaxws web services demo
 
-A simple guide on contract first web services using a trivial "Echo" web service example.
+1. wsdl-utils utilities used elsewhere in this project
+2. test-generated generated web service stubs for integration testing a java first service
+3. generated generated web service stubs for implementing a contract first service
+4. webservice service implementations and integration (e2e) tests
+5. webapp a web application to deploy the services on a suitable runtime (more recently tested with openliberty)
 
-## Write the contract (echo-ws)
+## Contract First Web Services
+
+A simple guide on contract first web services using a trivial "Echo" stateless web service example.
+
+### Write the contract (webservice module)
 
 We need to express the service methods and related types with a WSDL and a number of XSD files.
 
@@ -85,9 +93,11 @@ The following WSDL file imports the types from the XSD and defines the service c
 
     </wsdl:definitions>
 
-## Generate the java code (echo-gen) and implement the service (echo-ws)
+### Generate the java code (generated module) and implement the service (webservice module)
 
-Use the wsimport tool of your JDK to generate java sources from the WSDL and XSD files. Delete the service class, this is useful only when you are building a client. Instead, create a service implementation class that implements the defined port type interface.
+Use the wsimport tool of your JDK to generate java sources from the WSDL and XSD files. Alternatively, use the ant scripts on wsdl-utils module.
+
+Delete the service class, this is useful only when you are building a client. Instead, create a service implementation class that implements the defined port type interface.
 
 Annotate the class with `@WebService`. The result should look like the code below. All annotation attributes are based on the WSDL. The wsdlLocation attribute should point to the resource path of the actual packaged wsdl file.
 
@@ -101,7 +111,7 @@ Annotate the class with `@WebService`. The result should look like the code belo
         //implementation ommited
     }
 
-## Deploy as a servlet (echo-webapp)
+### Deploy as a servlet (webapp module)
 
 Most servlet containers auto-detect @WebService annotated files and publish the web services as servlet. If this is not the case, you need to include the servlet declaration in the web.xml file. The servlet container should create a servlet that processes web service requests by delegating to the implementation class methods.
 
@@ -115,7 +125,64 @@ Most servlet containers auto-detect @WebService annotated files and publish the 
 		<url-pattern>/Echo</url-pattern>
 	</servlet-mapping>
 
-## Log the soap request and response (wsdl-utils)
+## Java First Web Services Guide
+
+A simple guide on java first web services. Actually a stateful service this time around.
+
+Start as simple as creating a class with a number of public methods and supplying the appropriate
+annotations from the `javax.jws` package.
+
+1. @WebService on the class level marking a wsdl service
+2. @WebMethod on the method level marking a wsdl operation
+3. @WebParam on the method arguments level marking an input type, if applicable
+
+Deploy the service, most application servers will pick up the annotation meta-data and deploy it automatically.
+
+### Consuming (or e2e testing) the service
+
+Get the server generated wsdl by asking the server for it, for example `http://host:port/wsdldemo/CounterService?wsdl`
+should get the server generated wsdl for the `gr.dkateros.ws.CounterImpl` service. Use `wsimport` (or the ant script in
+wsdl-utils) to generate client stubs. Client stubs include a proxy factory that should be used to instantiate clients.
+
+### Stateful services
+
+Stateful service implementations normally preserve state on the HTTP session scope. JAXWS implementations leverage the
+standard Servlet API for this. The web request response context can be injected like so:
+
+	@Resource WebServiceContext ctx;
+
+and used within the service operations implementation to retrieve and store information on the HTTP session.
+
+	MessageContext mc = ctx.getMessageContext();
+	HttpSession session = ((HttpServletRequest) mc.get(MessageContext.SERVLET_REQUEST)).getSession();
+	//session.getAttribute("someKey");
+	//session.setAttribute("someKey", someValue);
+
+If the web service conversational scope is other than that of the HttpSession (e.g. multiple 
+conversations may start from the same HttpSession), it is a good idea to provide semantics 
+for discarding state. This could be achieved, for instance, by providing a web service method 
+that discards the existing state.
+
+### Stateful service clients
+
+On the client side one has to indicate to the client proxy that it is supposed to maintain the session
+AND reuse the same proxy for all calls that belong in the same session.
+
+Under the hood this causes the service to return a `Set-Cookie` HTTP header on the first request.
+The proxy should then use to this header's value to set the `Cookie` HTTP header so that the server
+can associate the request with the same HTTP session.
+
+### Why bother with contract first?
+
+WSDL services come from point when people were generally more concerned about their payloads, their type systems etc.
+As a result, the spec is more strict and complicated than what we are used to nowadays. A result of this complexity
+is that it is not uncommon that the same java definition can be translated as a wsdl definition in slightly different 
+ways by different runtimes. Breaking your clients when changing runtimes is not fun and being contract first reduces
+this kind of risk (note that I did not say it eliminates it).
+
+## Extras
+
+### Log the soap request and response (wsdl-utils module)
 
 Class `SoapLogger` is a servlet filter that intercepts HttpServletRequest and HttpServletResponse objects in order to log the input / output SOAP messages. Define the filter in web.xml
 
@@ -129,7 +196,7 @@ Class `SoapLogger` is a servlet filter that intercepts HttpServletRequest and Ht
 		<url-pattern>/Echo</url-pattern>
 	</filter-mapping>
 
-## Generate documentation from WSDL / XSD files (wsdl-utils, echo-ws)
+### Generate documentation from WSDL / XSD files (wsdl-utils, webservice modules)
 
 It is possible to use an XSL transformation to convert the WSDL / XSD files to HTML documentation that leverages the `documentation` elements. Class `Wsdl2Html` loads the wsdl files in a specified directory, resolves the imported XSD files and uses an XSL file in order to transform these into HTML.
 
@@ -173,11 +240,11 @@ The pom.xml of module echo-ws runs this class as an ant task in order to produce
         </plugins>
     </build>
 
-## Integration test (wsdl-utils, echo-ws)
+### Integration test (wsdl-utils, echo-ws)
 
 The `SoapWsClient` utility sends a SOAP payload to a specified web service URL and web service method. It uses the apache-http-client utility. Alternatively, if you do not want to write the SOAP request, one can create a client using the `wsimport` command.
 
-## Useful patterns
+### Useful patterns
 
 1. Encapsulate request and response types to allow for extensibility. Using an xsd:int as input for example does not allow for extend the service definition to accept additional input.
 2. Extend input / output types with optional attributes placed as the last attributes of the type to preserve client backwards compatibility.

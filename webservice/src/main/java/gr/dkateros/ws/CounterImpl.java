@@ -20,7 +20,7 @@ import javax.xml.ws.handler.MessageContext;
 		name = "Counter",
 		serviceName = "CounterService",
 		portName = "CounterPort")
-public class CounterImpl implements Counter {
+public class CounterImpl {
 
 	private static final String CTR = "ctr";
 	

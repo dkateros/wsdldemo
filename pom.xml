@@ -65,9 +65,10 @@
 
 	<modules>
 		<module>wsdl-utils</module>
-		<module>echo-gen</module>
-		<module>echo-ws</module>
-		<module>echo-webapp</module>
+		<module>test-generated</module>
+		<module>generated</module>
+		<module>webservice</module>
+		<module>webapp</module>
 	</modules>
 
 </project>
