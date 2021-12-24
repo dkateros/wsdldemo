@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--===============================================================
+Scripts for generation of wsdl from Java services and Java clients
+from wsdl.
+
+Requires the JAVA_HOME environment variable to point to a Java 1.5+
+JDK.
+================================================================-->
+<project name="ws" default="create-clients" xmlns:iag="http://www.dkateros.gr">
+	
+	<import file="macros.xml" />
+	
+	<!--=============================================
+	Creates java clients for a number of webservices
+	=================================================-->
+	<target name="create-clients">
+		<iag:truncate-dir directory="generated"/>
+		<iag:wsdl2java directory="generated" wsdl="/mnt/c/Users/katerosd/dev/trunk/wsdldemo/webservice/src/main/resources/gr/dkateros/ws/contract/echo.wsdl"/>
+	</target>
+	
+</project>

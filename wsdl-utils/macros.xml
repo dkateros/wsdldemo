@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ant-macros" xmlns:iag="http://www.interamerican.gr">
+
+	<!--  =======================================================================
+	Creates the java clients for a web service.
+	wsdl: the wsdl file path (or URL to the wsdl).
+	========================================================================= -->
+	<macrodef name="wsdl2java" uri="http://www.dkateros.gr">
+		<attribute name="wsdl" />
+		<attribute name="directory" />
+		<sequential>
+			<exec executable="wsimport" failifexecutionfails="false" failonerror="true" resultproperty="foundWSIMPORT">
+				<arg line="-keep -verbose -s @{directory} -d @{directory} @{wsdl}" />
+			</exec>
+			<fail unless="foundWSIMPORT" message="Make sure that JDK 1.6+ (or later) is on your PATH!"/> 
+			<delete>
+				<fileset dir="@{directory}" includes="**/*.class" />
+			</delete>
+		</sequential>
+	</macrodef>
+
+	<!--========================================================================
+	This macro creates an empty directory, deleting its contents if necessary.
+	=========================================================================-->
+	<macrodef name="truncate-dir" uri="http://www.dkateros.gr">
+		<attribute name="directory" />
+		<sequential>
+			<delete dir="@{directory}" failonerror="false" />
+			<mkdir dir="@{directory}" />
+		</sequential>
+	</macrodef>
+
+</project>
