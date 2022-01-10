@@ -165,8 +165,12 @@ that discards the existing state.
 
 ### Stateful service clients
 
-On the client side one has to indicate to the client proxy that it is supposed to maintain the session
-AND reuse the same proxy for all calls that belong in the same session.
+On the client side one has to indicate to the client proxy that it is supposed to maintain the session.
+The jaxws code looks like this:
+
+	((BindingProvider) proxy).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
+
+At the same time, we should reuse the same proxy instance for all calls that belong in the same session.
 
 Under the hood this causes the service to return a `Set-Cookie` HTTP header on the first request.
 The proxy should then use to this header's value to set the `Cookie` HTTP header so that the server
